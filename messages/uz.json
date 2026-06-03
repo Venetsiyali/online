@@ -1,0 +1,183 @@
+{
+  "nav": {
+    "home": "Bosh sahifa",
+    "courses": "Kurslar",
+    "learn": "O'rganish",
+    "search": "Qidirish",
+    "announcements": "E'lonlar",
+    "pricing": "Narxlar",
+    "login": "Kirish",
+    "register": "Ro'yxatdan o'tish",
+    "admin_login": "Admin kirish"
+  },
+  "hero": {
+    "title": "Cheksiz o'rganing",
+    "subtitle": "Minglab talabalar bilan birgalikda ekspertlar tomonidan o'qitiladigan onlayn kurslarda yangi ko'nikmalar o'rganing. Bugun bepul boshlang.",
+    "cta_primary": "Bepul boshlash",
+    "cta_secondary": "Barcha kurslar",
+    "badge": "🎓 Onlayn ta'lim platformasi"
+  },
+  "stats": {
+    "courses": "Kurs",
+    "students": "Talaba",
+    "languages": "Til",
+    "courses_label": "Ekspert kurslari",
+    "students_label": "Faol talabalar",
+    "languages_label": "Qo'llab-quvvatlanadigan tillar",
+    "satisfaction_label": "Mamnunlik darajasi"
+  },
+  "featured_courses": {
+    "title": "Tanlangan kurslar",
+    "subtitle": "O'rganishni boshlash uchun maxsus tanlangan kurslar",
+    "watch_now": "Ko'rish",
+    "free_badge": "BEPUL",
+    "view_all": "Barcha kurslar",
+    "no_courses": "Hozircha kurslar mavjud emas."
+  },
+  "announcements": {
+    "title": "So'nggi e'lonlar",
+    "subtitle": "Yangiliklar va yangilanishlardan xabardor bo'ling",
+    "read_more": "Ko'proq o'qish",
+    "view_all": "Barcha e'lonlar",
+    "no_announcements": "Hozircha e'lonlar yo'q.",
+    "published_on": "Chop etilgan",
+    "back": "E'lonlarga qaytish"
+  },
+  "pricing": {
+    "title": "Oddiy va shaffof narxlar",
+    "subtitle": "Siz uchun to'g'ri rejani tanlang",
+    "per_month": "/ oyiga",
+    "most_popular": "Eng mashhur",
+    "get_started": "Boshlash",
+    "contact_us": "Bog'lanish",
+    "no_plans": "Narx rejalari tez orada qo'shiladi."
+  },
+  "testimonials": {
+    "title": "Talabalarimiz nima deydi",
+    "subtitle": "Haqiqiy o'quvchilardan haqiqiy fikrlar",
+    "items": [
+      {
+        "name": "Alisher Karimov",
+        "role": "Veb-dasturchi",
+        "text": "OnlineAcademy mening karyeramni o'zgartirdi. Kurslar amaliy, qiziqarli va haqiqiy mutaxassislar tomonidan o'qitiladi.",
+        "avatar": "AK"
+      },
+      {
+        "name": "Mariya Petrova",
+        "role": "UI/UX Dizayner",
+        "text": "Atigi 3 oyda noldan birinchi dizayn ishimni topdim. Platforma juda yaxshi tuzilgan.",
+        "avatar": "MP"
+      },
+      {
+        "name": "Bobur Toshmatov",
+        "role": "Ma'lumotlar tahlilchisi",
+        "text": "Ko'p tilli qo'llab-quvvatlash o'yin qoidalarini o'zgartiradi. Men ona tilimda o'rganib, ingliz tiliga o'tishim mumkin.",
+        "avatar": "BT"
+      },
+      {
+        "name": "Sofiya Ivanova",
+        "role": "Mahsulot menejeri",
+        "text": "Ajoyib sifatli kontent. Har bir kurs haqiqiy loyihalar va amaliy mashqlar bilan diqqat bilan ishlab chiqilgan.",
+        "avatar": "SI"
+      }
+    ]
+  },
+  "footer": {
+    "description": "Markaziy Osiyo bo'ylab o'rganuvchilarga o'zbek, rus va ingliz tillarida jahon darajasidagi onlayn ta'lim beramiz.",
+    "quick_links": "Tezkor havolalar",
+    "follow_us": "Kuzatib boring",
+    "language": "Til",
+    "rights": "Barcha huquqlar himoyalangan.",
+    "contact": "Aloqa",
+    "email_us": "Xat yuborish"
+  },
+  "courses": {
+    "title": "Barcha kurslar",
+    "subtitle": "To'liq kurs kutubxonamizni o'rganing",
+    "search_placeholder": "Kurslarni qidirish...",
+    "all_categories": "Barcha kategoriyalar",
+    "no_courses": "Mezonlaringizga mos kurslar topilmadi.",
+    "watch_now": "Ko'rish",
+    "free": "BEPUL",
+    "premium": "PREMIUM",
+    "load_more": "Ko'proq yuklash"
+  },
+  "course_detail": {
+    "enroll_title": "Kursga yozilish",
+    "enroll_subtitle": "Kirish uchun ma'lumotlaringizni to'ldiring",
+    "name_label": "To'liq ism",
+    "name_placeholder": "To'liq ismingiz",
+    "phone_label": "Telefon raqami",
+    "phone_placeholder": "+998 90 123 45 67",
+    "email_label": "Elektron pochta",
+    "email_placeholder": "sizning@email.com",
+    "submit": "Yozilish",
+    "submitting": "Yuborilmoqda...",
+    "success": "Muvaffaqiyatli ro'yxatdan o'tdingiz! Tez orada siz bilan bog'lanamiz.",
+    "error": "Yozilishda xatolik. Qayta urinib ko'ring.",
+    "related_courses": "O'xshash kurslar",
+    "free_badge": "BEPUL",
+    "premium_badge": "PREMIUM",
+    "share": "Ulashish",
+    "category": "Kategoriya"
+  },
+  "auth": {
+    "login_title": "Xush kelibsiz",
+    "login_subtitle": "Hisobingizga kiring",
+    "register_title": "Ro'yxatdan o'tish",
+    "register_subtitle": "Minglab o'quvchilarga qo'shiling",
+    "name_label": "To'liq ism",
+    "name_placeholder": "To'liq ismingiz",
+    "email_label": "Elektron pochta",
+    "email_placeholder": "sizning@email.com",
+    "password_label": "Parol",
+    "password_placeholder": "••••••••",
+    "confirm_password_label": "Parolni tasdiqlang",
+    "confirm_password_placeholder": "••••••••",
+    "login_btn": "Kirish",
+    "register_btn": "Ro'yxatdan o'tish",
+    "logging_in": "Kirish...",
+    "registering": "Ro'yxatdan o'tilmoqda...",
+    "no_account": "Hisobingiz yo'qmi?",
+    "have_account": "Hisobingiz bormi?",
+    "register_link": "Ro'yxatdan o'ting",
+    "login_link": "Kirish",
+    "logout": "Chiqish",
+    "login_success": "Xush kelibsiz!",
+    "register_success": "Hisob yaratildi! Emailingizni tasdiqlang.",
+    "login_error": "Email yoki parol noto'g'ri.",
+    "register_error": "Ro'yxatdan o'tish muvaffaqiyatsiz. Qayta urinib ko'ring.",
+    "password_mismatch": "Parollar mos kelmaydi.",
+    "password_short": "Parol kamida 6 ta belgidan iborat bo'lishi kerak.",
+    "my_account": "Mening hisobim",
+    "dashboard": "Dashboard",
+    "dashboard_title": "Mening o'quv dashboardim",
+    "dashboard_subtitle": "Yozilgan kurslaringizni kuzating",
+    "enrolled_courses": "Mening kurslarim",
+    "no_enrollments": "Hali hech qanday kursga yozilmagansiz.",
+    "browse_courses": "Kurslarni ko'rish",
+    "enrolled_on": "Yozilgan sana",
+    "welcome": "Xush kelibsiz",
+    "profile": "Profil",
+    "profile_email": "Elektron pochta",
+    "profile_member_since": "A'zo bo'lgan sana"
+  },
+  "common": {
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik yuz berdi.",
+    "not_found": "Sahifa topilmadi.",
+    "back_home": "Bosh sahifaga"
+  },
+  "learn": {
+    "start_learning": "O'rganishni boshlash",
+    "continue_learning": "Davom etish",
+    "lessons": "Darslar",
+    "progress": "Progress",
+    "completed": "Bajarildi",
+    "quiz": "Test",
+    "certificate": "Sertifikat",
+    "get_certificate": "Sertifikat olish",
+    "download_pdf": "PDF yuklab olish",
+    "lesson_count": "dars"
+  }
+}

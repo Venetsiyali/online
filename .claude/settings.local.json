@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node.exe --version)",
+      "Bash(where node:*)",
+      "Bash(cmd /c \"node -e \"\"const b=require\\(''bcryptjs''\\); b.hash\\(''Admin2024!'', 12\\).then\\(h => console.log\\(h\\)\\)\"\"\")",
+      "Bash(powershell -Command \"cd ''C:/Users/HP/Documents/online academy''; node -e \"\"const b=require\\(''bcryptjs''\\); b.hash\\(''Admin2024!'', 12\\).then\\(h => console.log\\(h\\)\\)\"\"\")",
+      "Bash(powershell -Command \":*)",
+      "Bash(cmd /c \"where node\")",
+      "Bash(cmd /c \"dir C:\\\\Program Files\\\\nodejs\\\\node.exe\")",
+      "Bash(cmd /c \"dir C:\\\\Users\\\\HP\\\\AppData\\\\Roaming\\\\nvm\")",
+      "Bash(python -c \"import bcrypt; h = bcrypt.hashpw\\(b''Admin2024!'', bcrypt.gensalt\\(12\\)\\); print\\(h.decode\\(\\)\\)\")",
+      "Bash(cmd /c \"npx vercel --version\")",
+      "Bash(node -e \"const bcrypt = require\\(''bcryptjs''\\); bcrypt.hash\\(''Admin2024!'', 12\\).then\\(h => console.log\\(h\\)\\);\")",
+      "Bash(powershell -Command \"node -e \"\"const bcrypt = require\\(''bcryptjs''\\); bcrypt.hash\\(''Admin2024!'', 12\\).then\\(h => console.log\\(h\\)\\);\"\"\")",
+      "Bash(powershell -Command \"Get-Command npx -ErrorAction SilentlyContinue; Get-Command node -ErrorAction SilentlyContinue; ls ''C:\\\\Program Files\\\\nodejs\\\\'' 2>null; ls $env:APPDATA\\\\npm\\\\ 2>null\")",
+      "Bash(python -c \"import bcrypt; h=b''$2b$12$V6U5DF0jcKy5.TKMjJVGtez5k53ACmEiWmaT3/8kpVTAHmElzWPNm''; print\\(bcrypt.checkpw\\(b''Admin2024!'', h\\)\\)\")",
+      "Bash(python3 -c \":*)",
+      "Bash(python -c \":*)",
+      "Bash(powershell -Command \"& ''C:\\\\Users\\\\HP\\\\AppData\\\\Roaming\\\\npm\\\\node.cmd'' -e \"\"const b=require\\(''bcryptjs''\\);b.hash\\(''Admin2024!'',12\\).then\\(h=>{console.log\\(h\\);process.exit\\(\\)}\\)\"\"\")",
+      "Bash(powershell -Command \"npx --version\")"
+    ]
+  }
+}

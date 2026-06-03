@@ -1,0 +1,179 @@
+{
+  "nav": {
+    "home": "Home",
+    "courses": "Courses",
+    "announcements": "Announcements",
+    "pricing": "Pricing",
+    "login": "Admin Login"
+  },
+  "hero": {
+    "title": "Learn Without Limits",
+    "subtitle": "Join thousands of students mastering new skills with our expert-led online courses. Start your journey today — completely free.",
+    "cta_primary": "Start Learning Free",
+    "cta_secondary": "View All Courses",
+    "badge": "🎓 Online Learning Platform"
+  },
+  "stats": {
+    "courses": "Courses",
+    "students": "Students",
+    "languages": "Languages",
+    "courses_label": "Expert Courses",
+    "students_label": "Active Students",
+    "languages_label": "Languages Supported",
+    "satisfaction_label": "Satisfaction Rate"
+  },
+  "featured_courses": {
+    "title": "Featured Courses",
+    "subtitle": "Handpicked courses to kickstart your learning journey",
+    "watch_now": "Watch Now",
+    "free_badge": "FREE",
+    "view_all": "View All Courses",
+    "no_courses": "No courses available yet."
+  },
+  "announcements": {
+    "title": "Latest Announcements",
+    "subtitle": "Stay up to date with news and updates",
+    "read_more": "Read More",
+    "view_all": "View All Announcements",
+    "no_announcements": "No announcements yet.",
+    "published_on": "Published on",
+    "back": "Back to Announcements"
+  },
+  "pricing": {
+    "title": "Simple, Transparent Pricing",
+    "subtitle": "Choose the plan that's right for you",
+    "per_month": "/ month",
+    "most_popular": "Most Popular",
+    "get_started": "Get Started",
+    "contact_us": "Contact Us",
+    "no_plans": "Pricing plans coming soon."
+  },
+  "testimonials": {
+    "title": "What Our Students Say",
+    "subtitle": "Real feedback from real learners",
+    "items": [
+      {
+        "name": "Alisher Karimov",
+        "role": "Web Developer",
+        "text": "OnlineAcademy transformed my career. The courses are practical, engaging, and taught by real professionals.",
+        "avatar": "AK"
+      },
+      {
+        "name": "Maria Petrova",
+        "role": "UI/UX Designer",
+        "text": "I went from zero to landing my first design job in just 3 months. The platform is incredibly well-structured.",
+        "avatar": "MP"
+      },
+      {
+        "name": "Bobur Toshmatov",
+        "role": "Data Analyst",
+        "text": "The multilingual support is a game changer. I can learn in my native language and switch to English for practice.",
+        "avatar": "BT"
+      },
+      {
+        "name": "Sofia Ivanova",
+        "role": "Product Manager",
+        "text": "Outstanding quality content. Each course is meticulously crafted with real-world projects and hands-on exercises.",
+        "avatar": "SI"
+      }
+    ]
+  },
+  "footer": {
+    "description": "Empowering learners across Central Asia with world-class online education in Uzbek, Russian, and English.",
+    "quick_links": "Quick Links",
+    "follow_us": "Follow Us",
+    "language": "Language",
+    "rights": "All rights reserved.",
+    "contact": "Contact",
+    "email_us": "Email Us"
+  },
+  "courses": {
+    "title": "All Courses",
+    "subtitle": "Explore our complete course library",
+    "search_placeholder": "Search courses...",
+    "all_categories": "All Categories",
+    "no_courses": "No courses found matching your criteria.",
+    "watch_now": "Watch Now",
+    "free": "FREE",
+    "premium": "PREMIUM",
+    "load_more": "Load More"
+  },
+  "course_detail": {
+    "enroll_title": "Enroll in This Course",
+    "enroll_subtitle": "Fill in your details to get access",
+    "name_label": "Full Name",
+    "name_placeholder": "Your full name",
+    "phone_label": "Phone Number",
+    "phone_placeholder": "+998 90 123 45 67",
+    "email_label": "Email Address",
+    "email_placeholder": "your@email.com",
+    "submit": "Enroll Now",
+    "submitting": "Enrolling...",
+    "success": "Successfully enrolled! We'll contact you soon.",
+    "error": "Enrollment failed. Please try again.",
+    "related_courses": "Related Courses",
+    "free_badge": "FREE",
+    "premium_badge": "PREMIUM",
+    "share": "Share",
+    "category": "Category"
+  },
+  "auth": {
+    "login_title": "Welcome Back",
+    "login_subtitle": "Sign in to your account",
+    "register_title": "Create Account",
+    "register_subtitle": "Join thousands of learners today",
+    "name_label": "Full Name",
+    "name_placeholder": "Your full name",
+    "email_label": "Email Address",
+    "email_placeholder": "your@email.com",
+    "password_label": "Password",
+    "password_placeholder": "••••••••",
+    "confirm_password_label": "Confirm Password",
+    "confirm_password_placeholder": "••••••••",
+    "login_btn": "Sign In",
+    "register_btn": "Create Account",
+    "logging_in": "Signing in...",
+    "registering": "Creating account...",
+    "no_account": "Don't have an account?",
+    "have_account": "Already have an account?",
+    "register_link": "Sign up",
+    "login_link": "Sign in",
+    "logout": "Sign Out",
+    "login_success": "Welcome back!",
+    "register_success": "Account created! Please check your email to confirm.",
+    "login_error": "Invalid email or password.",
+    "register_error": "Registration failed. Please try again.",
+    "password_mismatch": "Passwords do not match.",
+    "password_short": "Password must be at least 6 characters.",
+    "my_account": "My Account",
+    "dashboard": "Dashboard",
+    "dashboard_title": "My Learning Dashboard",
+    "dashboard_subtitle": "Track your enrolled courses",
+    "enrolled_courses": "My Enrolled Courses",
+    "no_enrollments": "You haven't enrolled in any courses yet.",
+    "browse_courses": "Browse Courses",
+    "enrolled_on": "Enrolled on",
+    "welcome": "Welcome",
+    "profile": "Profile",
+    "profile_email": "Email",
+    "profile_member_since": "Member since"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong.",
+    "not_found": "Page not found.",
+    "back_home": "Back to Home"
+  },
+  "learn": {
+    "start_learning": "Start Learning",
+    "continue_learning": "Continue Learning",
+    "lessons": "Lessons",
+    "progress": "Progress",
+    "completed": "Completed",
+    "quiz": "Quiz",
+    "certificate": "Certificate",
+    "get_certificate": "Get Certificate",
+    "download_pdf": "Download PDF",
+    "lesson_count": "lessons"
+  }
+}
