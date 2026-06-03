@@ -86,6 +86,17 @@ export default async function CourseDetailPage({
             {localCourse.title}
           </h1>
 
+          {/* Instructor info */}
+          <div className="flex items-center gap-3 mt-3">
+            <div className="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+              KF
+            </div>
+            <div>
+              <p className="text-slate-400 text-xs">{locale === 'uz' ? 'O\'qituvchi' : locale === 'ru' ? 'Преподаватель' : 'Instructor'}</p>
+              <p className="text-white font-semibold text-sm">Kamolova Fazilat</p>
+            </div>
+          </div>
+
           {lessons.length > 0 && (
             <div className="flex items-center gap-5 mt-4 text-sm text-slate-300">
               <span className="flex items-center gap-1.5">

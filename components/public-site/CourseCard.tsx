@@ -70,7 +70,9 @@ export default function CourseCard({
 
         {/* Instructor */}
         <p className="text-xs text-gray-500 mb-2 font-medium">
-          Prof. O'qituvchi Ismi
+          {course.title.toLowerCase().includes('coreldraw') || course.title.toLowerCase().includes('corel')
+            ? "Kamolova Fazilat"
+            : "Prof. O'qituvchi Ismi"}
         </p>
 
         {/* Description / Skills */}

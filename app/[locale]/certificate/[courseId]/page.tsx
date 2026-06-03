@@ -158,8 +158,10 @@ export default function CertificatePage() {
 
                   <div className="text-center sm:text-right">
                     <div className="w-32 h-px bg-slate-300 mb-1 ml-auto" />
-                    <p className="text-xs text-slate-400">OnlineAcademy</p>
-                    <p className="text-sm font-semibold text-slate-700">online-two-iota.vercel.app</p>
+                    <p className="text-xs text-slate-400">
+                      {locale === 'uz' ? 'Platforma asoschisi & O\'qituvchi' : locale === 'ru' ? 'Основатель платформы & Преподаватель' : 'Platform Founder & Instructor'}
+                    </p>
+                    <p className="text-sm font-bold text-slate-800 italic">Kamolova Fazilat</p>
                   </div>
                 </div>
               </div>
