@@ -16,6 +16,12 @@ interface CertData {
   courses: { title_uz: string; title_ru: string; title_en: string } | null;
 }
 
+// Generate a local cert number from courseId + user info (stable)
+function genLocalCertNumber(courseId: string, name: string) {
+  const seed = (courseId + name).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+  return `OA-${new Date().getFullYear()}-${(seed % 900000) + 100000}`;
+}
+
 export default function CertificatePage() {
   const params = useParams();
   const courseId = params.courseId as string;
@@ -31,17 +37,66 @@ export default function CertificatePage() {
     if (authLoading) return;
     if (!user) { router.push(`/${locale}/login`); return; }
 
-    fetch(`/api/certificate/${courseId}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.certificate) {
-          setCert(data.certificate);
-        } else {
-          setError(locale === 'uz' ? 'Sertifikat topilmadi. Barcha darslarni bajaring.' : locale === 'ru' ? 'Сертификат не найден. Завершите все уроки.' : 'Certificate not found. Complete all lessons first.');
+    const load = async () => {
+      try {
+        // 1. Try to get certificate from server
+        const certRes = await fetch(`/api/certificate/${courseId}`);
+        const certData = await certRes.json();
+
+        if (certData.certificate) {
+          setCert(certData.certificate);
+          setLoading(false);
+          return;
         }
-        setLoading(false);
-      })
-      .catch(() => { setError('Error'); setLoading(false); });
+
+        // 2. Fallback: check localStorage progress
+        const lsKey = `progress_${courseId}`;
+        let completedIds: string[] = [];
+        try {
+          const cached = localStorage.getItem(lsKey);
+          if (cached) completedIds = JSON.parse(cached);
+        } catch (_) {}
+
+        // 3. Get course + lesson info
+        const courseRes = await fetch(`/api/courses/${courseId}`);
+        if (courseRes.ok) {
+          const courseData = await courseRes.json();
+          const totalLessons: number = (courseData.lessons || []).length;
+          const course = courseData.course;
+
+          if (totalLessons > 0 && completedIds.length >= totalLessons) {
+            // All lessons done locally — show local certificate
+            const userName = (user as any)?.name || (user as any)?.email?.split('@')[0] || 'O\'quvchi';
+            const localCert: CertData = {
+              id: 'local',
+              certificate_number: genLocalCertNumber(courseId, userName),
+              full_name: userName,
+              issued_at: new Date().toISOString(),
+              courses: {
+                title_uz: course?.title_uz || 'Kurs',
+                title_ru: course?.title_ru || 'Курс',
+                title_en: course?.title_en || 'Course',
+              },
+            };
+            setCert(localCert);
+            setLoading(false);
+            return;
+          }
+        }
+
+        // 4. Not completed
+        setError(
+          locale === 'uz' ? 'Sertifikat topilmadi. Barcha darslarni bajaring.' :
+          locale === 'ru' ? 'Сертификат не найден. Завершите все уроки.' :
+          'Certificate not found. Complete all lessons first.'
+        );
+      } catch {
+        setError('Error');
+      }
+      setLoading(false);
+    };
+
+    load();
   }, [user, authLoading, courseId, locale, router]);
 
   const handlePrint = () => window.print();
