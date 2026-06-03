@@ -82,6 +82,22 @@ export default function LessonViewerPage() {
     load();
   }, [user, authLoading, courseId, lessonId, locale, router]);
 
+  const lsKey = `progress_${courseId}`;
+
+  // Load extra completed IDs from localStorage (fallback cache)
+  useEffect(() => {
+    try {
+      const cached = localStorage.getItem(lsKey);
+      if (cached) {
+        const cachedIds: string[] = JSON.parse(cached);
+        setCompletedIds((prev) => {
+          const merged = Array.from(new Set([...prev, ...cachedIds]));
+          return merged;
+        });
+      }
+    } catch (_) {}
+  }, [lsKey]);
+
   useEffect(() => {
     if (completedIds.includes(lessonId)) {
       setAlreadyDone(true);
@@ -99,6 +115,19 @@ export default function LessonViewerPage() {
   const markComplete = async (quizScore?: number): Promise<boolean> => {
     setMarking(true);
     setSaveError(null);
+
+    // Immediately mark as done in local state + localStorage (optimistic update)
+    setCompletedIds((prev) => {
+      const updated = prev.includes(lessonId) ? prev : [...prev, lessonId];
+      try {
+        localStorage.setItem(lsKey, JSON.stringify(updated));
+      } catch (_) {}
+      return updated;
+    });
+    setAlreadyDone(true);
+    setMarking(false);
+
+    // Then try to save to server in background
     try {
       const res = await fetch('/api/progress', {
         method: 'POST',
@@ -110,32 +139,26 @@ export default function LessonViewerPage() {
         }),
       });
 
-      const data = await res.json().catch(() => ({}));
-
       if (!res.ok) {
-        console.error('[markComplete] server error:', data);
-        setSaveError(data.error || 'Server error');
-        setMarking(false);
-        return false;
+        const data = await res.json().catch(() => ({}));
+        console.warn('[markComplete] server save failed (but local progress is saved):', data);
       }
 
-      // POST succeeded — update local state immediately and sync from server
-      setCompletedIds((prev) => prev.includes(lessonId) ? prev : [...prev, lessonId]);
-      setAlreadyDone(true);
-      setMarking(false);
+      // Sync from server to get latest
+      fetchProgress().then((serverIds) => {
+        if (serverIds && serverIds.length > 0) {
+          setCompletedIds((prev) => {
+            const merged = Array.from(new Set([...prev, ...serverIds]));
+            try { localStorage.setItem(lsKey, JSON.stringify(merged)); } catch (_) {}
+            return merged;
+          });
+        }
+      });
 
-      // Background sync (don't await — don't block UI)
-      fetchProgress();
       return true;
     } catch (e) {
-      console.error('[markComplete] network error:', e);
-      setSaveError(
-        locale === 'uz' ? 'Tarmoq xatosi. Internet aloqasini tekshiring.'
-        : locale === 'ru' ? 'Ошибка сети. Проверьте подключение.'
-        : 'Network error. Check your connection.'
-      );
-      setMarking(false);
-      return false;
+      console.warn('[markComplete] network error — progress saved locally only:', e);
+      return true; // Still return true since local state is updated
     }
   };
 

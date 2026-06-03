@@ -33,10 +33,26 @@ export default function CourseLearnPage() {
   const [loading, setLoading] = useState(true);
   const [certificate, setCertificate] = useState<{ certificate_number: string; issued_at: string } | null>(null);
 
+  const lsKey = `progress_${courseId}`;
+
   const fetchProgress = useCallback(async () => {
     const res = await fetch(`/api/progress/${courseId}`);
-    if (res.ok) setProgress(await res.json());
-  }, [courseId]);
+    if (res.ok) {
+      const data = await res.json();
+      // Merge server progress with localStorage cache
+      try {
+        const cached = localStorage.getItem(lsKey);
+        if (cached) {
+          const cachedIds: string[] = JSON.parse(cached);
+          const merged = Array.from(new Set([...data.completedIds, ...cachedIds]));
+          data.completedIds = merged;
+          data.completedCount = merged.length;
+          data.percent = data.totalLessons > 0 ? Math.round((merged.length / data.totalLessons) * 100) : 0;
+        }
+      } catch (_) {}
+      setProgress(data);
+    }
+  }, [courseId, lsKey]);
 
   useEffect(() => {
     if (authLoading) return;
@@ -54,7 +70,23 @@ export default function CourseLearnPage() {
         setCourse(data.course as Course);
         setLessons(data.lessons as Lesson[]);
       }
-      if (progressRes.ok) setProgress(await progressRes.json());
+      if (progressRes.ok) {
+        const data = await progressRes.json();
+        // Merge with localStorage cache
+        try {
+          const cached = localStorage.getItem(lsKey);
+          if (cached) {
+            const cachedIds: string[] = JSON.parse(cached);
+            const merged = Array.from(new Set([...data.completedIds, ...cachedIds]));
+            data.completedIds = merged;
+            data.completedCount = merged.length;
+            if (data.totalLessons > 0) {
+              data.percent = Math.round((merged.length / data.totalLessons) * 100);
+            }
+          }
+        } catch (_) {}
+        setProgress(data);
+      }
       if (certRes.ok) {
         const d = await certRes.json();
         if (d.certificate) setCertificate(d.certificate);
@@ -62,7 +94,7 @@ export default function CourseLearnPage() {
       setLoading(false);
     };
     load();
-  }, [user, authLoading, courseId, locale, router, fetchProgress]);
+  }, [user, authLoading, courseId, locale, router, fetchProgress, lsKey]);
 
   if (authLoading || loading) {
     return (
