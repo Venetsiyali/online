@@ -22,11 +22,23 @@ export default function LessonViewerPage() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
 
+  const lsKey = `progress_${courseId}`;
+
   const [course, setCourse] = useState<Course | null>(null);
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-  const [completedIds, setCompletedIds] = useState<string[]>([]);
+
+  // Read localStorage SYNCHRONOUSLY so first render already has correct completedIds
+  const [completedIds, setCompletedIds] = useState<string[]>(() => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const cached = localStorage.getItem(`progress_${courseId}`);
+      if (cached) return JSON.parse(cached) as string[];
+    } catch (_) {}
+    return [];
+  });
+
   const [loading, setLoading] = useState(true);
 
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -43,8 +55,14 @@ export default function LessonViewerPage() {
       const res = await fetch(`/api/progress/${courseId}`);
       if (res.ok) {
         const d = await res.json();
-        setCompletedIds(d.completedIds || []);
-        return d.completedIds as string[];
+        const serverIds: string[] = d.completedIds || [];
+        // Merge server with localStorage cache
+        setCompletedIds((prev) => {
+          const merged = Array.from(new Set([...prev, ...serverIds]));
+          try { localStorage.setItem(`progress_${courseId}`, JSON.stringify(merged)); } catch (_) {}
+          return merged;
+        });
+        return serverIds;
       }
     } catch (e) {
       console.error('[fetchProgress]', e);
@@ -75,28 +93,18 @@ export default function LessonViewerPage() {
       }
       if (progressRes.ok) {
         const d = await progressRes.json();
-        setCompletedIds(d.completedIds || []);
+        const serverIds: string[] = d.completedIds || [];
+        // Merge server progress with localStorage (don't overwrite!)
+        setCompletedIds((prev) => {
+          const merged = Array.from(new Set([...prev, ...serverIds]));
+          try { localStorage.setItem(`progress_${courseId}`, JSON.stringify(merged)); } catch (_) {}
+          return merged;
+        });
       }
       setLoading(false);
     };
     load();
   }, [user, authLoading, courseId, lessonId, locale, router]);
-
-  const lsKey = `progress_${courseId}`;
-
-  // Load extra completed IDs from localStorage (fallback cache)
-  useEffect(() => {
-    try {
-      const cached = localStorage.getItem(lsKey);
-      if (cached) {
-        const cachedIds: string[] = JSON.parse(cached);
-        setCompletedIds((prev) => {
-          const merged = Array.from(new Set([...prev, ...cachedIds]));
-          return merged;
-        });
-      }
-    } catch (_) {}
-  }, [lsKey]);
 
   useEffect(() => {
     if (completedIds.includes(lessonId)) {
@@ -110,7 +118,8 @@ export default function LessonViewerPage() {
   const isLastLesson = currentIndex === lessons.length - 1;
 
   // Sequential lock: previous lesson must be completed
-  const isLessonLocked = currentIndex > 0 && !completedIds.includes(lessons[currentIndex - 1]?.id);
+  // Only lock AFTER lessons have loaded (lessons.length > 0)
+  const isLessonLocked = !loading && lessons.length > 0 && currentIndex > 0 && !completedIds.includes(lessons[currentIndex - 1]?.id);
 
   const markComplete = async (quizScore?: number): Promise<boolean> => {
     setMarking(true);
