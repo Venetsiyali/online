@@ -2,55 +2,142 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 20% 10%;
+    --background: 0 0% 98%;
+    --foreground: 220 25% 8%;
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 10%;
+    --card-foreground: 220 25% 8%;
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 10%;
-    --primary: 215 100% 41%; /* Coursera Blue #0056D2 */
+    --popover-foreground: 220 25% 8%;
+    --primary: 350 85% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 15% 15%; /* Dark for text #1e2229 */
-    --secondary-foreground: 0 0% 100%;
-    --muted: 220 20% 96%; /* #f2f5fa */
+    --secondary: 220 15% 95%;
+    --secondary-foreground: 220 25% 8%;
+    --muted: 220 20% 94%;
     --muted-foreground: 220 15% 45%;
-    --accent: 220 20% 96%;
-    --accent-foreground: 215 100% 41%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 20% 90%;
-    --input: 220 20% 90%;
-    --ring: 215 100% 41%;
-    --radius: 0.5rem;
+    --accent: 350 85% 95%;
+    --accent-foreground: 350 85% 40%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 20% 88%;
+    --input: 220 20% 88%;
+    --ring: 350 85% 50%;
+    --radius: 0.75rem;
+    --brand: #E63946;
+    --brand-dark: #c1121f;
+    --brand-light: #ff6b6b;
+    --surface: #ffffff;
+    --surface-2: #f8f9fb;
+    --surface-3: #f1f3f6;
+    --text-1: #0d1117;
+    --text-2: #3d4550;
+    --text-3: #6b7280;
   }
 
-  * { @apply border-border; }
+  .dark {
+    --background: 220 25% 6%;
+    --foreground: 220 15% 92%;
+    --card: 220 25% 9%;
+    --card-foreground: 220 15% 92%;
+    --popover: 220 25% 9%;
+    --popover-foreground: 220 15% 92%;
+    --primary: 350 85% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 25% 12%;
+    --secondary-foreground: 220 15% 92%;
+    --muted: 220 25% 12%;
+    --muted-foreground: 220 15% 55%;
+    --accent: 350 50% 15%;
+    --accent-foreground: 350 85% 65%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 25% 16%;
+    --input: 220 25% 16%;
+    --ring: 350 85% 55%;
+    --brand: #ff4d5e;
+    --brand-dark: #E63946;
+    --brand-light: #ff8a94;
+    --surface: #0f1318;
+    --surface-2: #161b22;
+    --surface-3: #1c2330;
+    --text-1: #e8ecf0;
+    --text-2: #a8b4c0;
+    --text-3: #6b7a8d;
+  }
+
+  * { box-sizing: border-box; }
 
   body {
-    @apply bg-background text-foreground font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   html { scroll-behavior: smooth; }
 }
 
-/* ─── Utilities ─────────────────────────────────────── */
-.card-hover {
-  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+@layer utilities {
+  .brand-gradient { background: linear-gradient(135deg, #E63946 0%, #c1121f 100%); }
+  
+  .brand-gradient-text {
+    background: linear-gradient(135deg, #E63946, #ff8a94);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-card {
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .section-padding { @apply py-20 md:py-28; }
+  .container-custom { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+  .card-hover { @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1; }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: rgba(230,57,70,0.1);
+    color: #E63946;
+    border: 1px solid rgba(230,57,70,0.2);
+    margin-bottom: 1rem;
+  }
 }
 
-.feature-badge {
-  @apply inline-flex items-center gap-2 px-3 py-1 rounded bg-[#f0f6ff] text-[#0056D2] text-xs font-semibold;
-  border: 1px solid #cfe2ff;
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
 }
 
-.section-padding  { @apply py-16 md:py-24; }
-.section-divider  { @apply border-t border-slate-200; }
-.container-custom { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(230,57,70,0.3); }
+  50% { box-shadow: 0 0 40px rgba(230,57,70,0.6); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float { animation: float 4s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-slide-up { animation: slide-up 0.6s ease-out forwards; }
 
 .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
 .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; }
+}

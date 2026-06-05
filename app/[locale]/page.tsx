@@ -1,174 +1,114 @@
 export const dynamic = 'force-dynamic';
-import { getTranslations } from 'next-intl/server';
 import { getDb } from '@/lib/db';
-import type { Course, Announcement, PricingPlan, Locale } from '@/lib/types';
-import { localizeCourse, localizeAnnouncement, localizePricingPlan } from '@/lib/types';
+import type { Course, Locale } from '@/lib/types';
+import { localizeCourse } from '@/lib/types';
 import HeroSection from '@/components/public-site/HeroSection';
-import StatsBar from '@/components/public-site/StatsBar';
-import CourseCard from '@/components/public-site/CourseCard';
-import AnnouncementCard from '@/components/public-site/AnnouncementCard';
-import PricingCard from '@/components/public-site/PricingCard';
-import TestimonialsSection from '@/components/public-site/TestimonialsSection';
 import Header from '@/components/public-site/Header';
 import Footer from '@/components/public-site/Footer';
-import { ArrowRight, BookOpen, Bell, Tag } from 'lucide-react';
+import DirectionsSection from '@/components/public-site/DirectionsSection';
+import ScheduleSection from '@/components/public-site/ScheduleSection';
+import LeadershipSection from '@/components/public-site/LeadershipSection';
+import GallerySection from '@/components/public-site/GallerySection';
+import TestimonialsSection from '@/components/public-site/TestimonialsSection';
+import LocationSection from '@/components/public-site/LocationSection';
 import { Toaster } from '@/components/ui/sonner';
 
 export default async function HomePage({ params: { locale } }: { params: { locale: string } }) {
-  const t = await getTranslations({ locale, namespace: 'featured_courses' });
-  const tAnn = await getTranslations({ locale, namespace: 'announcements' });
-  const tPricing = await getTranslations({ locale, namespace: 'pricing' });
-
   const sql = getDb();
 
-  const [coursesRows, announcementsRows, pricingRows, studentsRow] = await Promise.all([
-    sql`SELECT * FROM courses WHERE is_published=true ORDER BY created_at DESC LIMIT 50`,
-    sql`SELECT * FROM announcements WHERE is_published=true ORDER BY created_at DESC LIMIT 3`,
-    sql`SELECT * FROM pricing_plans WHERE is_active=true ORDER BY price`,
-    sql`SELECT COUNT(*) FROM students`,
-  ]);
+  // Only fetch CorelDRAW course
+  const coursesRows = await sql`
+    SELECT * FROM courses
+    WHERE is_published=true
+      AND (LOWER(title_uz) LIKE '%corel%' OR LOWER(title_en) LIKE '%corel%' OR LOWER(title_ru) LIKE '%corel%')
+    ORDER BY created_at DESC
+    LIMIT 1
+  `;
 
   const courses = coursesRows as Course[];
-  const announcements = announcementsRows as Announcement[];
-  const pricingPlans = pricingRows as PricingPlan[];
-  const studentsCount = Number(studentsRow[0]?.count || 0);
-
   const loc = locale as Locale;
-  const localizedCourses = courses.map((c) => localizeCourse(c, loc));
-  const localizedAnnouncements = announcements.map((a) => localizeAnnouncement(a, loc));
-  const localizedPlans = pricingPlans.map((p) => localizePricingPlan(p, loc));
+  const corelCourse = courses.length > 0 ? localizeCourse(courses[0], loc) : null;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <Header />
       <Toaster />
 
-      {/* Hero */}
+      {/* 1. Hero */}
       <HeroSection />
 
-      {/* Stats */}
-      <div className="border-b border-gray-200">
-        <StatsBar coursesCount={courses.length || 0} studentsCount={studentsCount} />
-      </div>
-
-      {/* Categories (Coursera-like) */}
-      <section className="py-16 bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center md:text-left">
-            Ommabop yo'nalishlar bo'yicha o'rganing
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {['Dasturlash', 'Biznes', 'Ma\'lumotlar ilmi', 'Sun\'iy Intelekt', 'Dizayn', 'Tillar', 'Marketing', 'Kiberxavfsizlik', 'Boshqaruv', 'Moliya'].map((cat, i) => (
-              <a key={i} href={`/${locale}/courses?category=${cat}`} className="flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-xl hover:shadow-md hover:border-primary transition-all group text-center cursor-pointer">
-                <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                  <BookOpen className="w-6 h-6" />
-                </div>
-                <span className="font-semibold text-gray-800 text-sm group-hover:text-primary transition-colors">{cat}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Courses */}
-      <section className="py-20 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-3">{t('title')}</h2>
-              <p className="text-gray-600 text-lg">{t('subtitle')}</p>
-            </div>
-            <a
-              href={`/${locale}/courses`}
-              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-bold text-base transition-colors group"
-            >
-              {t('view_all')}
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
-
-          {localizedCourses.length === 0 ? (
-            <p className="text-center text-gray-500 py-12 text-lg">{t('no_courses')}</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {localizedCourses.map((course) => (
-                <CourseCard
-                  key={course.id}
-                  course={course}
-                  watchLabel={t('watch_now')}
-                  freeLabel={t('free_badge')}
-                  locale={locale}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Announcements */}
-      <section className="py-20 lg:py-24 bg-gray-50 border-y border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-3">{tAnn('title')}</h2>
-              <p className="text-gray-600 text-lg">{tAnn('subtitle')}</p>
-            </div>
-            <a
-              href={`/${locale}/announcements`}
-              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-bold text-base transition-colors group"
-            >
-              {tAnn('view_all')}
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
-
-          {localizedAnnouncements.length === 0 ? (
-            <p className="text-center text-gray-500 py-12 text-lg">{tAnn('no_announcements')}</p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {localizedAnnouncements.map((ann) => (
-                <AnnouncementCard
-                  key={ann.id}
-                  announcement={ann}
-                  readMoreLabel={tAnn('read_more')}
-                  locale={locale}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Pricing */}
-      {localizedPlans.length > 0 && (
-        <section className="py-20 lg:py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16 max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4">
-                {tPricing('title')}
+      {/* 2. CorelDRAW Video Section — show only CorelDRAW */}
+      {corelCourse && (
+        <section className="section-padding bg-background">
+          <div className="container-custom">
+            <div className="text-center mb-12">
+              <span className="section-tag">🎨 CorelDRAW</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Kurs <span className="brand-gradient-text">darslari</span>
               </h2>
-              <p className="text-gray-600 text-lg">{tPricing('subtitle')}</p>
+              <p className="text-muted-foreground text-lg">
+                Kamolova Fazilat tayyorlagan professional video darslar
+              </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {localizedPlans.map((plan) => (
-                <PricingCard
-                  key={plan.id}
-                  plan={plan}
-                  perMonthLabel={tPricing('per_month')}
-                  popularLabel={tPricing('most_popular')}
-                  ctaLabel={tPricing('get_started')}
-                  locale={locale}
-                />
-              ))}
+            <div className="max-w-2xl mx-auto">
+              <a
+                href={`/${locale}/courses/${courses[0].id}`}
+                className="group block bg-card rounded-2xl border border-border overflow-hidden card-hover"
+              >
+                {/* Video thumbnail */}
+                <div className="relative aspect-video bg-slate-900">
+                  <img
+                    src="https://img.youtube.com/vi/dwQbWkDCk40/hqdefault.jpg"
+                    alt={corelCourse.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/20 transition-colors">
+                    <div className="w-16 h-16 rounded-full bg-brand/90 flex items-center justify-center">
+                      <svg className="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="absolute top-3 left-3 bg-brand text-white text-xs font-bold px-2.5 py-1 rounded-full">
+                    BEPUL
+                  </div>
+                </div>
+                {/* Info */}
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-full bg-brand text-white flex items-center justify-center text-xs font-bold">KF</div>
+                    <span className="text-sm text-muted-foreground">Kamolova Fazilat</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-2">{corelCourse.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2">{corelCourse.description}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">4 ta video dars • Sertifikat</span>
+                    <span className="text-brand font-bold text-sm group-hover:underline">Kursni boshlash →</span>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
         </section>
       )}
 
-      {/* Testimonials */}
-      <div className="bg-gray-50 border-t border-gray-200">
-        <TestimonialsSection />
-      </div>
+      {/* 3. Directions */}
+      <DirectionsSection />
+
+      {/* 4. Schedule & Exam */}
+      <ScheduleSection />
+
+      {/* 5. Leadership */}
+      <LeadershipSection />
+
+      {/* 6. Gallery */}
+      <GallerySection />
+
+      {/* 7. Testimonials */}
+      <TestimonialsSection />
+
+      {/* 8. Location + QR */}
+      <LocationSection />
 
       <Footer />
     </div>
