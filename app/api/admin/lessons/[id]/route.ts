@@ -12,6 +12,20 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const body = await req.json();
     const sql = getDb();
 
+    // If only video_url is provided (from video manager), do a partial update
+    // to avoid clearing other fields
+    if (Object.keys(body).length === 1 && 'video_url' in body) {
+      const rows = await sql`
+        UPDATE lessons SET
+          video_url=${body.video_url || null}
+        WHERE id=${params.id}
+        RETURNING *
+      `;
+      if (rows.length === 0) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      return NextResponse.json(rows[0]);
+    }
+
+    // Full update (from lessons admin page)
     const rows = await sql`
       UPDATE lessons SET
         title_uz=${body.title_uz || ''},

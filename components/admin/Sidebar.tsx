@@ -14,17 +14,19 @@ import {
   X,
   GraduationCap,
   PlaySquare,
+  Youtube,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/courses', label: 'Courses', icon: BookOpen },
-  { href: '/admin/lessons', label: 'Lessons & Quizzes', icon: PlaySquare },
-  { href: '/admin/announcements', label: 'Announcements', icon: Bell },
-  { href: '/admin/students', label: 'Students', icon: Users },
-  { href: '/admin/pricing', label: 'Pricing', icon: Tag },
+  { href: '/admin', label: 'Boshqaruv', icon: LayoutDashboard },
+  { href: '/admin/videos', label: "\uD83C\uDFAC Video Boshqaruv", icon: Youtube },
+  { href: '/admin/courses', label: 'Kurslar', icon: BookOpen },
+  { href: '/admin/lessons', label: "Darslar & Testlar", icon: PlaySquare },
+  { href: '/admin/announcements', label: "E\u2019lonlar", icon: Bell },
+  { href: '/admin/students', label: "O\u2018quvchilar", icon: Users },
+  { href: '/admin/pricing', label: 'Narxlar', icon: Tag },
 ];
 
 interface SidebarProps {

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/admin/Sidebar';
-import { BookOpen, Users, Bell, Tag, TrendingUp } from 'lucide-react';
+import { BookOpen, Users, Bell, Tag, TrendingUp, Youtube, PlaySquare, ChevronRight } from 'lucide-react';
 import { Toaster } from '@/components/ui/sonner';
 import { formatDate } from '@/lib/utils';
 import {
@@ -31,6 +31,49 @@ interface RecentStudent {
   enrolled_at: string;
   courses: { title_en: string } | null;
 }
+
+const quickActions = [
+  {
+    href: '/admin/videos',
+    label: 'Video qo\'shish / o\'zgartirish',
+    desc: 'YouTube link orqali dars videolarini boshqaring',
+    icon: Youtube,
+    color: 'bg-red-500',
+    bg: 'bg-red-50',
+    border: 'border-red-100',
+    text: 'text-red-600',
+  },
+  {
+    href: '/admin/lessons',
+    label: 'Darslar & Testlar',
+    desc: 'Yangi dars qo\'shing yoki testlarni tahrirlang',
+    icon: PlaySquare,
+    color: 'bg-amber-500',
+    bg: 'bg-amber-50',
+    border: 'border-amber-100',
+    text: 'text-amber-600',
+  },
+  {
+    href: '/admin/courses',
+    label: 'Kurslarni boshqarish',
+    desc: 'Kurs ma\'lumotlari, narx va holat',
+    icon: BookOpen,
+    color: 'bg-blue-500',
+    bg: 'bg-blue-50',
+    border: 'border-blue-100',
+    text: 'text-blue-600',
+  },
+  {
+    href: '/admin/students',
+    label: 'O\'quvchilar ro\'yxati',
+    desc: 'Ro\'yxatdan o\'tgan o\'quvchilarni ko\'ring',
+    icon: Users,
+    color: 'bg-green-500',
+    bg: 'bg-green-50',
+    border: 'border-green-100',
+    text: 'text-green-600',
+  },
+];
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
@@ -74,10 +117,10 @@ export default function AdminDashboard() {
   if (!session) return null;
 
   const statCards = [
-    { label: 'Total Courses', value: stats.courses, icon: BookOpen, color: 'bg-blue-50 text-blue-600' },
-    { label: 'Total Students', value: stats.students, icon: Users, color: 'bg-green-50 text-green-600' },
-    { label: 'Announcements', value: stats.announcements, icon: Bell, color: 'bg-amber-50 text-amber-600' },
-    { label: 'Pricing Plans', value: stats.pricing, icon: Tag, color: 'bg-purple-50 text-purple-600' },
+    { label: 'Jami kurslar', value: stats.courses, icon: BookOpen, color: 'bg-blue-50 text-blue-600' },
+    { label: 'O\'quvchilar', value: stats.students, icon: Users, color: 'bg-green-50 text-green-600' },
+    { label: 'E\'lonlar', value: stats.announcements, icon: Bell, color: 'bg-amber-50 text-amber-600' },
+    { label: 'Narx rejalari', value: stats.pricing, icon: Tag, color: 'bg-purple-50 text-purple-600' },
   ];
 
   return (
@@ -86,10 +129,38 @@ export default function AdminDashboard() {
       <div className="p-6 lg:p-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Boshqaruv paneli</h1>
           <p className="text-slate-500 mt-1">
-            Welcome back, {session.user?.name || 'Admin'}!
+            Xush kelibsiz, {session.user?.name || 'Admin'}! 👋
           </p>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="mb-8">
+          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">
+            Tez harakatlar
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {quickActions.map(action => {
+              const Icon = action.icon;
+              return (
+                <a
+                  key={action.href}
+                  href={action.href}
+                  className={`group flex items-start gap-3 p-4 rounded-xl border ${action.bg} ${action.border} hover:shadow-md transition-all`}
+                >
+                  <div className={`w-9 h-9 rounded-lg ${action.color} flex items-center justify-center flex-shrink-0`}>
+                    <Icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className={`font-semibold text-sm ${action.text}`}>{action.label}</p>
+                    <p className="text-xs text-slate-500 mt-0.5 leading-tight">{action.desc}</p>
+                  </div>
+                  <ChevronRight className={`w-4 h-4 ${action.text} opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-0.5`} />
+                </a>
+              );
+            })}
+          </div>
         </div>
 
         {/* Stats */}
@@ -107,7 +178,7 @@ export default function AdminDashboard() {
                 <div className="text-3xl font-bold text-slate-900">{card.value}</div>
                 <div className="flex items-center gap-1 mt-2 text-green-500 text-xs font-medium">
                   <TrendingUp className="w-3.5 h-3.5" />
-                  Active
+                  Faol
                 </div>
               </div>
             );
@@ -119,24 +190,24 @@ export default function AdminDashboard() {
           <div className="p-6 border-b border-slate-100">
             <div className="flex items-center gap-2">
               <Users className="w-5 h-5 text-slate-600" />
-              <h2 className="font-semibold text-slate-900">Recent Enrollments</h2>
+              <h2 className="font-semibold text-slate-900">Oxirgi ro'yxatdan o'tganlar</h2>
             </div>
           </div>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead>Course</TableHead>
-                  <TableHead>Date</TableHead>
+                  <TableHead>Ism</TableHead>
+                  <TableHead>Telefon</TableHead>
+                  <TableHead>Kurs</TableHead>
+                  <TableHead>Sana</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {recent.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={4} className="text-center text-slate-400 py-8">
-                      No enrollments yet
+                      Hali ro'yxatdan o'tganlar yo'q
                     </TableCell>
                   </TableRow>
                 ) : (
